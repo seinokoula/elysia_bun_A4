@@ -1,30 +1,27 @@
-import { Elysia } from "elysia";
-import { staticPlugin } from '@elysiajs/static'
-import { renderToReadableStream } from 'react-dom/server'
-import { createElement } from "react";
-import App from './react/App'
+import { Elysia } from 'elysia';
+import { logger } from '@grotto/logysia';
+import './database/db.setup';
+import { securitySetup } from './startup/security'
+import { docsSetup } from './startup/docs';
+import { hooksSetup } from './startup/hooks';
+import { usersController } from './controllers/users.controller';
+import { staticDataController } from './controllers/static-data.controller';
 
-// bundle client side react-code each time the server starts
-await Bun.build({
-  entrypoints: ['./src/react/index.tsx'],
-  outdir: './public',
-});
+const PORT = process.env.PORT || 3000;
+export const app = new Elysia();
 
-const app = new Elysia()
-  .use(staticPlugin())
-  .get('/', async () => {
-
-    // create our react App component
-    const app = createElement(App)
-
-    // render the app component to a readable stream
-    const stream = await renderToReadableStream(app, {
-      bootstrapScripts: ['/public/index.js']
-    })
-
-    // output the stream as the response
-    return new Response(stream, {
-      headers: { 'Content-Type': 'text/html' }
-    })
-  })
-  .listen(3000)
+app
+  .use(securitySetup)
+  .use(docsSetup)
+  // .use(logger())
+  .use(hooksSetup)
+  .get('/', () => 'Hello Bun.js!')
+  .group('', (app: Elysia) =>
+    app
+      .use(usersController)
+      .use(staticDataController)
+      // and other controllers
+  )
+  .listen(PORT, () => {
+    console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
+  });
