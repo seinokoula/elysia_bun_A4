@@ -5,10 +5,14 @@ import { helmet } from 'elysia-helmet';
 
 export const securitySetup = (app: Elysia) =>
   app
-    .use(cors(/* Options */))
+    .use(cors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      exposedHeaders: ['Content-Type', 'Authorization']
+    }))
     .use(
       helmet({
-        // Modify CSP to enable Swagger UI with Helmet.js
         contentSecurityPolicy: {
           directives: {
             defaultSrc: ["'self'"],
@@ -19,8 +23,3 @@ export const securitySetup = (app: Elysia) =>
         },
       })
     )
-    // .use(rateLimit({ max: 100 }));
-    // Because of
-    // WARN Bun.serve()'s Request object does not implement anything beyond Request object standard,
-    // it is currently deemed to be impossible to use this rate limit plugin unless there're IP provided
-    // by proxy server. However, you can write your own key generator via `generator` option

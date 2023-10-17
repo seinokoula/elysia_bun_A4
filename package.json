@@ -3,12 +3,11 @@
   "version": "1.0.50",
   "scripts": {
     "start": "bun src/index.ts",
-    "dev": "bun run --watch src/index.ts",
-    "test": "bun test ./test/**.test.ts"
+    "dev": "bun run --watch src/index.tsx"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.6.0",
-    "@elysiajs/html": "^0.6.5",
+    "@elysiajs/html": "^0.7.3",
     "@elysiajs/jwt": "^0.6.4",
     "@elysiajs/swagger": "^0.6.2",
     "@grotto/logysia": "^0.0.2",

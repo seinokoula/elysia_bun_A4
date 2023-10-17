@@ -6,7 +6,6 @@ export const usersController = (app: Elysia) =>
   app.group('/users', (app: Elysia) =>
     app
 
-      // Using JWT
       .use(
         jwt({
           name: 'jwt',
@@ -14,58 +13,53 @@ export const usersController = (app: Elysia) =>
         })
       )
 
-      // Validating required properties using Guard schema
       .guard({
         body: t.Object({
-            username: t.String(),
-            email: t.String(),
-            password: t.String()
+          username: t.String(),
+          email: t.String(),
+          password: t.String()
         })
       }, (app: Elysia) => app
-          // This route is protected by the Guard above
-          .post('/', async (handler: Elysia.Handler) => {
-            try {
-
-              const newUser = new User();
-              newUser.username = handler.body.username;
-              newUser.email = handler.body.email;
-              newUser.password = handler.body.password;
-
-              const savedUser = await newUser.save();
-
-              // JWT payload is based off user id
-              const accessToken = await handler.jwt.sign({
-                userId: savedUser._id
-              });
-
-              // Returning JTW to the client (via headers)
-              handler.set.headers = {
-                'X-Authorization': accessToken,
-              };
-              handler.set.status = 201;
-
-              return newUser;
-            } catch (e: any) {
-              // If unique mongoose constraint (for username or email) is violated
-              if (e.name === 'MongoServerError' && e.code === 11000) {
-                handler.set.status = 422;
-                return {
-                  message: 'Resource already exists!',
-                  status: 422,
-                };
-              }
-
-              handler.set.status = 500;
+      .post('/', async (handler: Elysia.Handler) => {
+        try {
+          console.log('handler.body', handler.body);
+      
+          const newUser = new User();
+          newUser.username = handler.body.username;
+          newUser.email = handler.body.email;
+          newUser.password = await Bun.password.hash(handler.body.password);
+      
+          const savedUser = await newUser.save();
+      
+          const accessToken = await handler.jwt.sign({
+            userId: savedUser._id
+          });
+      
+          handler.set.headers = {
+            'Authorisation': accessToken,
+          };
+          handler.set.status = 201;
+            return newUser;
+          } catch (e: any) {
+            if (e.name === 'MongoServerError' && e.code === 11000) {
+              handler.set.status = 422;
               return {
-                message: 'Unable to save entry to the database!',
-                status: 500,
+                message: 'Resource already exists!',
+                status: 422,
               };
             }
-          }, {
-            onError(handler: Elysia.Handler) {
-              console.log(`wwwwwww  Handler - Status Code: ${handler.set.status}`);
-            }
-          })
+
+            handler.set.status = 500;
+            return {
+              message: e.message,
+              status: 500,
+            };
+          }
+        }, {
+          onError(handler: Elysia.Handler) {
+            console.log(`wwwwwww  Handler - Status Code: ${handler.set.status}`);
+          }
+        })
 
       )
 
