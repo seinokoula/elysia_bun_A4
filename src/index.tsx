@@ -1,10 +1,9 @@
 import { Elysia } from 'elysia';
-import './database/db.setup';
-import { securitySetup } from './startup/security'
-import { hooksSetup } from './startup/hooks';
-import { usersController } from './controllers/users.controller';
-import { html } from '@elysiajs/html'; // Add this line to import the html module
-import React from 'react'; // Add this line to import React
+import './database/setup';
+import { securitySetup } from './modules/security'
+import { hooksSetup } from './modules/hooks';
+import { usersController } from './controllers/users';
+import { html } from '@elysiajs/html';
 
 const PORT = process.env.PORT || 3000;
 export const app = new Elysia();
@@ -12,12 +11,11 @@ export const app = new Elysia();
 app
     .use(securitySetup)
     .use(hooksSetup)
-    .get('/', () => 'Hello Bun.js!')
     .group('', (app: Elysia) =>
         app
             .use(usersController)
     )
-    .use(html()) // Add this line to use the html module
+    .use(html())
     .get(
         '/',
         () => `

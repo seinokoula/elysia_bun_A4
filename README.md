@@ -1,15 +1,23 @@
-# Elysia with Bun runtime
+# Elysia with Bun and mongoDB
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
+Bun for the pakage manager and mongoDB for the database, elysia framework for the backend.
+
+## Installation
+
 ```bash
-bun create elysia ./elysia-example
+bun i
 ```
 
-## Development
-To start the development server run:
+## Usage
+
 ```bash
-bun run dev
+bun dev
 ```
 
-Open http://localhost:3000/ with your browser to see the result.
+## Package
+
+bun-livereload : livereload for bun dev server 
+bun-mongodb : mongodb for bun
+bun-elysia : elysia framework for bun
+elysia-html : html template engine for elysia
+

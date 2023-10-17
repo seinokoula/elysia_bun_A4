@@ -1,8 +1,9 @@
 import { Elysia, t } from 'elysia';
-import User, { IUser } from '../entities/user.schema';
+import User, { IUser } from '../entities/user';
 import { jwt } from '@elysiajs/jwt';
+import liveReload from 'bun-livereload';
 
-export const usersController = (app: Elysia) =>
+export const usersController = liveReload((app: Elysia) =>
   app.group('/users', (app: Elysia) =>
     app
 
@@ -63,7 +64,6 @@ export const usersController = (app: Elysia) =>
 
       )
 
-      // Guard does not affect the following routes
       .get('/', async ({ set }: Elysia.Set) => {
         try {
           const users = await User.find({});
@@ -159,4 +159,4 @@ export const usersController = (app: Elysia) =>
           };
         }
       })
-  );
+  ));
