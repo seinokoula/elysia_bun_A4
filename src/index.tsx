@@ -9,16 +9,16 @@ const PORT = process.env.PORT || 3000;
 export const app = new Elysia();
 
 app
-    .use(securitySetup)
-    .use(hooksSetup)
-    .group('', (app: Elysia) =>
-        app
-            .use(usersController)
-    )
-    .use(html())
-    .get(
-        '/',
-        () => `
+  .use(securitySetup)
+  .use(hooksSetup)
+  .group('', (app: Elysia) =>
+    app
+      .use(usersController)
+  )
+  .use(html())
+  .get(
+    '/',
+    () => `
             <html lang='en'>
                 <head>
                     <title>Hello World</title>
@@ -56,9 +56,10 @@ app
                             ))}
                         </tbody>
                     </table>
+
                 </body>
             </html>`
-    )
-    .listen(PORT, () => {
-        console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
-    });
+  )
+  .listen(PORT, () => {
+    console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
+  });

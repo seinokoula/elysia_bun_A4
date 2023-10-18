@@ -3,21 +3,27 @@
   "version": "1.0.50",
   "scripts": {
     "start": "bun src/index.ts",
-    "dev": "bun run --watch src/index.tsx"
+    "dev": "bun run --watch src/index.tsx",
+    "test": "bun test",
+    "build": "bun build"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.6.0",
     "@elysiajs/html": "^0.7.3",
     "@elysiajs/jwt": "^0.6.4",
-    "@elysiajs/swagger": "^0.6.2",
+    "@elysiajs/swagger": "^0.7.3",
     "@grotto/logysia": "^0.0.2",
+    "@types/jest": "^29.5.6",
     "bun-livereload": "^1.0.3",
     "elysia": "latest",
     "elysia-helmet": "^1.0.1",
     "elysia-rate-limit": "^1.0.3",
-    "mongoose": "^7.5.1"
+    "jest": "^29.7.0",
+    "mongoose": "^7.5.1",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
+    "@types/supertest": "^2.0.14",
     "bun-types": "latest"
   },
   "module": "src/index.js"
