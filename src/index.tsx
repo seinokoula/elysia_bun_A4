@@ -4,12 +4,18 @@ import { securitySetup } from './modules/security'
 import { hooksSetup } from './modules/hooks';
 import { usersController } from './controllers/users';
 import { html } from '@elysiajs/html';
+import { swagger } from '@elysiajs/swagger';
 
 const PORT = process.env.PORT || 3000;
 export const app = new Elysia();
 
 app
   .use(securitySetup)
+  .use(swagger({
+    path: '/api',
+  }
+  ))
+    .listen(8080)
   .use(hooksSetup)
   .group('', (app: Elysia) =>
     app
@@ -22,6 +28,7 @@ app
             <html lang='en'>
                 <head>
                     <title>Hello World</title>
+                    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
                 </head>
                 <body>
                     <h1>Sign up</h1>
@@ -40,7 +47,9 @@ app
                         </label>
                         <button type="submit">Create User</button>
                     </form>
-                    <table>
+
+                    <h1>Users</h1>
+                    <table id="usersTable">
                         <thead>
                             <tr>
                                 <th>Username</th>
@@ -48,15 +57,26 @@ app
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user) => (
-                                <tr key={users._id}>
-                                    <td>{users.username}</td>
-                                    <td>{users.email}</td>
-                                </tr>
-                            ))}
                         </tbody>
                     </table>
 
+                    <script>
+                        axios.get('/users')
+                            .then(function (response) {
+                                const users = response.data;
+                                const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+                                users.forEach(user => {
+                                    let newRow = tableBody.insertRow();
+                                    let usernameCell = newRow.insertCell(0);
+                                    let emailCell = newRow.insertCell(1);
+                                    usernameCell.textContent = user.username;
+                                    emailCell.textContent = user.email;
+                                });
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    </script>
                 </body>
             </html>`
   )

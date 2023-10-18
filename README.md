@@ -25,7 +25,7 @@ If you haven't already, install the Bun runtime:
 ```
 curl -fsSL https://bun.sh/install | bash
 ```
-Only works on Linux and macOS for now.
+Only works on Linux and macOS for now, windows is quite tricky.
 
 To install the dependencies of the application, use the Bun package manager:
 ```
@@ -36,12 +36,12 @@ bun install
 
 To start the application in development mode, use the dev script:
 ```
-bun run dev
+bun dev
 ```
 
 To start the application, use the start script:
 ```
-bun run start
+bun start
 ```
 
 To test the application, use the test script:
@@ -53,5 +53,46 @@ bun test
 
 The application uses the following packages:
 
-Live-reloading: @elysiajs/bun-dev
-@types/supertest
+ - @types/supertest : 
+    This packages is for testing the application.
+    it can be used with this command
+    ```
+    bun test
+    ```
+    
+- @elysiajs/swagger:
+    This package is for interacting with and testing the API you are building.
+    It can be used with 
+    ```
+    /api
+    ```
+    in base url of http://localhost:3000/. so http://localhost:3000/api/ will show the swagger ui.
+
+
+
+## Structure of the Application
+
+```
+📁 public
+├──index.js
+📁 src
+├── controllers
+│   ├── users.ts
+├── database
+│   ├── setup.ts
+├── entities
+│   ├── user.ts
+├── modules
+│   ├── hooks.ts
+│   ├── security.ts
+├── test
+│   ├── users.test.ts
+| index.tsx
+.env
+.gitignore
+bun.lockb
+package-lock.json
+package.json
+README.md
+tsconfig.json
+```
