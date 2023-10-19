@@ -5,26 +5,27 @@ import { hooksSetup } from './modules/hooks';
 import { usersController } from './controllers/users';
 import { html } from '@elysiajs/html';
 import { swagger } from '@elysiajs/swagger';
+const { elysiaVite } = require('elysia-vite')
 
 const PORT = process.env.PORT || 3000;
 export const app = new Elysia();
 
 app
-  .use(securitySetup)
-  .use(swagger({
-    path: '/api',
-  }
-  ))
+    .use(securitySetup)
+    .use(swagger({
+        path: '/api',
+    }
+    ))
     .listen(8080)
-  .use(hooksSetup)
-  .group('', (app: Elysia) =>
-    app
-      .use(usersController)
-  )
-  .use(html())
-  .get(
-    '/',
-    () => `
+    .use(hooksSetup)
+    .group('', (app: Elysia) =>
+        app
+            .use(usersController)
+    )
+    .use(html())
+    .get(
+        '/',
+        () => `
             <html lang='en'>
                 <head>
                     <title>Hello World</title>
@@ -60,6 +61,7 @@ app
                         </tbody>
                     </table>
 
+                    <!-- axios is used to make an HTTP GET request to the /users endpoint and populate the table with the returned data -->
                     <script>
                         axios.get('/users')
                             .then(function (response) {
@@ -79,7 +81,7 @@ app
                     </script>
                 </body>
             </html>`
-  )
-  .listen(PORT, () => {
-    console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
-  });
+    )
+    .listen(PORT, () => {
+        console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
+    });

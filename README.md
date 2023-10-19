@@ -96,3 +96,13 @@ package.json
 README.md
 tsconfig.json
 ```
+
+The application has the following directory structure:
+	•	public: Contains the compiled assets like ﻿index.js.
+	•	src: Contains the source code of the application, including controllers, database setup, entities, modules, and tests.
+	•	controllers: Contains the controller files responsible for handling different routes and requests.
+	•	database: Contains the setup file for connecting and configuring the MongoDB database.
+	•	entities: Contains entity or model files for defining the data structure to be stored in the database.
+	•	modules: Contains module files that provide additional functionality or hooks for the application.
+	•	test: Contains test files for testing the application.
+Other files include configuration files, package files, and the application's main file.

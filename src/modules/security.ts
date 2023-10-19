@@ -2,6 +2,7 @@ import { Elysia } from 'elysia';
 import { cors } from '@elysiajs/cors';
 import { helmet } from 'elysia-helmet';
 
+// This function sets up security-related middleware for the Elysia app
 export const securitySetup = (app: Elysia) =>
   app
     .use(cors({
