@@ -34,10 +34,11 @@ bun install
 
 ## Running the Application
 
-To start the application in development mode, use the dev script:
+To see the application in action, start the application in development mode:
 ```
 bun dev
 ```
+and open http://localhost:3000/ in your browser. You will see a form to create a new user and all the user with thei username and email.
 
 To start the application, use the start script:
 ```
