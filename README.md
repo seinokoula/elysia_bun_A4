@@ -54,22 +54,24 @@ bun test
 
 The application uses the following packages:
 
- - @types/supertest : 
+ - @types/supertest :
     This packages is for testing the application.
     it can be used with this command
     ```
     bun test
     ```
-    
+
 - @elysiajs/swagger:
     This package is for interacting with and testing the API you are building.
-    It can be used with 
+    It can be used with
     ```
     /api
     ```
     in base url of http://localhost:3000/. so http://localhost:3000/api/ will show the swagger ui.
 
-
+- bun-livereload:
+    this package is for reloading the imports each time the function is called.
+    So it has no direct use in the application but it is used in the development mode.
 
 ## Structure of the Application
 
